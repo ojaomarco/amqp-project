@@ -8,7 +8,7 @@ channel.queue_bind(exchange='transacoes.suspeitas',
                    queue='policia.federal')
 
 def callback(ch, method, properties, body):
-    print(" [x] Recebida: %r" % body)
+    print("\033[91m [PF]\033[0m Transação: %r" % body.decode('utf-8'))
 
 channel.basic_consume(queue='policia.federal', on_message_callback=callback)
 

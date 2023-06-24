@@ -12,14 +12,12 @@ channel.queue_declare(queue='transacoes.financeiras')
 
 def callback(ch, method, properties, body):
     ch.basic_ack(delivery_tag=method.delivery_tag)
-    print("[x] Recebida %r" % body)
+    print("[Consumer] Recebida %r" % body.decode('utf-8'))
     try:
         validate_transaction(body)
     except:
-        print("Error Update:")
-        traceback.print_exc()
         print("\033[93m [*] mensagem ja enviada... \033[0m")
-    print('[x] Processada...')
+    print('\033[92m[x] Processada... \033[0m')
     time.sleep(1)
     
 channel.basic_qos(prefetch_count=1)     
