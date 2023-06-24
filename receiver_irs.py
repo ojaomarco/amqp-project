@@ -3,7 +3,7 @@ import pika
 connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
 channel = connection.channel()
 channel.exchange_declare(exchange='transacoes.suspeitas',exchange_type='fanout')
-channel.queue_declare(queue='receita.federal', durable=True)
+channel.queue_declare(queue='receita.federal', durable=False)
 channel.queue_bind(exchange='transacoes.suspeitas',
                    queue='receita.federal')
 

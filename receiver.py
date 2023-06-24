@@ -1,6 +1,7 @@
 import pika
 import time
 import json
+import traceback
 from util.notify import notify_authorities
 
 connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
@@ -12,8 +13,12 @@ channel.queue_declare(queue='transacoes.financeiras')
 def callback(ch, method, properties, body):
     ch.basic_ack(delivery_tag=method.delivery_tag)
     print("[x] Recebida %r" % body)
-
-    validate_transaction(body)
+    try:
+        validate_transaction(body)
+    except:
+        print("Error Update:")
+        traceback.print_exc()
+        print("\033[93m [*] mensagem ja enviada... \033[0m")
     print('[x] Processada...')
     time.sleep(1)
     

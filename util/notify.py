@@ -3,7 +3,6 @@ import json
 
 connection = pika.BlockingConnection(pika.ConnectionParameters(host='localhost'))
 channel = connection.channel()
-
 channel.exchange_declare(exchange='transacoes.suspeitas', exchange_type='fanout')
 
 def notify_authorities(message):
@@ -11,4 +10,3 @@ def notify_authorities(message):
                         routing_key='',
                         body=message)
     print("Notified authorities...")
-
