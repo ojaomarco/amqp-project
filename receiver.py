@@ -10,11 +10,11 @@ channel.queue_declare(queue='transacoes.financeiras')
 
 
 def callback(ch, method, properties, body):
+    ch.basic_ack(delivery_tag=method.delivery_tag)
     print("[x] Recebida %r" % body)
 
     validate_transaction(body)
     print('[x] Processada...')
-    ch.basic_ack(delivery_tag=method.delivery_tag)
     time.sleep(1)
     
 channel.basic_qos(prefetch_count=1)     
